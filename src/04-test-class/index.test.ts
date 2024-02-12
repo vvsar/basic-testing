@@ -6,10 +6,6 @@ describe('BankAccount', () => {
   const account = getBankAccount(1000);
   const anotherAccount = getBankAccount(10);
 
-  beforeEach(() => {
-    //
-  });
-
   afterEach(() => {
     jest.restoreAllMocks();
   });
@@ -49,13 +45,6 @@ describe('BankAccount', () => {
   });
 
   test('fetchBalance should return number in case if request did not failed', async () => {
-    // jest.doMock('lodash/random', () => {
-    //   // const original = jest.requireActual<typeof import('lodash')>('lodash');
-    //   return {
-    //     default: jest.fn(() => 1),
-    //     __esModule: true,
-    //   };
-    // });
     const spy = jest.spyOn(lodash, 'random').mockImplementation(() => 1);
     expect(typeof (await account.fetchBalance())).toBe('number');
     expect(spy).toHaveBeenCalled();
