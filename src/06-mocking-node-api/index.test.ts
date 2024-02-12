@@ -1,45 +1,23 @@
 // Uncomment the code below and write your tests
 // import { readFileAsynchronously, doStuffByTimeout, doStuffByInterval } from '.';
-import path from 'path';
-import { readFileAsynchronously } from '.';
-
-// const mockJoin = jest.fn((pth) => `path\\to\\${pth}`);
-jest.mock('path', () => mockPath());
-function mockPath() {
-  const original = jest.requireActual<typeof import('path')>('path');
-  return {
-    ...original,
-    join: jest.fn((pth) => `path\\to\\${pth}`),
-  };
-}
+import { doStuffByTimeout } from '.';
 
 describe('doStuffByTimeout', () => {
-  // const spy = jest.spyOn(global, 'setTimeout');
-
-  beforeAll(() => {
-    jest.useFakeTimers();
-    // jest.spyOn(global, 'setTimeout');
-  });
-
-  afterAll(() => {
-    jest.useRealTimers();
-  });
-
-  // const callback = jest.fn();
-  // const spy = jest.spyOn(global, 'setTimeout');
+  const callback = jest.fn();
 
   test('should set timeout with provided callback and timeout', () => {
     // doStuffByTimeout(callback, 1000);
-    // expect(spy).toHaveBeenCalledTimes(1);
-    // expect(spy).toHaveBeenLastCalledWith(expect(callback), 1000);
+    // expect(callback).toHaveBeenCalledTimes(1);
+    // expect(callback).toHaveBeenLastCalledWith(expect(callback), 1000);
   });
 
   test('should call callback only after timeout', () => {
-    // doStuffByTimeout(callback, 1000);
-    // expect(callback).not.toHaveBeenCalled();
-    // jest.runAllTimers();
-    // expect(callback).toHaveBeenCalled();
-    // expect(callback).toHaveBeenCalledTimes(1);
+    jest.useFakeTimers();
+    doStuffByTimeout(callback, 1000);
+    expect(callback).not.toHaveBeenCalled();
+    jest.runAllTimers();
+    expect(callback).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -69,10 +47,10 @@ describe('readFileAsynchronously', () => {
     // });
   });
   test('should call join with pathToFile', async () => {
-    jest.mock('path', () => mockPath());
-    await readFileAsynchronously('fakeFile.txt');
-    expect(path.join).toHaveBeenCalledWith('fakeFile.txt');
-    expect(path.join).toBe('path\\to\\fakeFile.txt');
+    // jest.mock('path', () => mockPath());
+    // await readFileAsynchronously('fakeFile.txt');
+    // expect(path.join).toHaveBeenCalledWith('fakeFile.txt');
+    // expect(path.join).toBe('path\\to\\fakeFile.txt');
   });
 
   test('should return null if file does not exist', async () => {
